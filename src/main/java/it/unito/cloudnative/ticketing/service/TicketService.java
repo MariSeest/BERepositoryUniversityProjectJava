@@ -4,11 +4,13 @@ package it.unito.cloudnative.ticketing.service;
 import it.unito.cloudnative.ticketing.model.Ticket;
 import it.unito.cloudnative.ticketing.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TicketService {
@@ -26,10 +28,11 @@ public class TicketService {
 
     public Ticket createTicket(Ticket ticket) {
         Ticket saved = ticketRepository.save(ticket);
+        log.info("Ticket creato id={} title='{}'", saved.getId(), saved.getTitle());
 
         // invio email di notifica
         try {
-            String subject = "Nuovo ticket #" + saved.getId() + " - " + saved.getTitle();
+            String subject = "Nuovo ticket #" + saved.getId() + " - " + nullToEmpty(saved.getTitle());
             String body = """
                 <h2>Nuovo ticket creato</h2>
                 <p><b>ID:</b> %d</p>
@@ -46,9 +49,9 @@ public class TicketService {
                 );
 
             mailService.sendSimple(subject, body);
+            log.info("Notifica SendGrid inviata per ticket id={}", saved.getId());
         } catch (Exception e) {
-            System.err.println("Errore nell'invio della mail con SendGrid: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Errore nell'invio della mail con SendGrid per ticket id={}: {}", saved.getId(), e.getMessage(), e);
         }
 
         return saved;
@@ -60,12 +63,15 @@ public class TicketService {
             ticket.setDescription(updatedTicket.getDescription());
             ticket.setStatus(updatedTicket.getStatus());
             ticket.setPriority(updatedTicket.getPriority());
-            return ticketRepository.save(ticket);
+            Ticket saved = ticketRepository.save(ticket);
+            log.info("Ticket aggiornato id={} title='{}'", saved.getId(), saved.getTitle());
+            return saved;
         }).orElse(null);
     }
 
     public void deleteTicket(Long id) {
         ticketRepository.deleteById(id);
+        log.warn("Ticket cancellato id={}", id);
     }
 
     private static String nullToEmpty(String s) {

@@ -9,11 +9,13 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MailService {
@@ -52,12 +54,13 @@ public class MailService {
             Response res = sg.api(req);
 
             // --- LOG DETTAGLIATO ---
-            System.out.println("[SendGrid] To=" + toEmail);
-            System.out.println("[SendGrid] Status=" + res.getStatusCode());
-            System.out.println("[SendGrid] Body=" + res.getBody());
-            System.out.println("[SendGrid] Headers=" + res.getHeaders());
-
+            log.info("[SendGrid] to={} status={} messageId={}",
+                    toEmail, res.getStatusCode(), res.getHeaders().get("X-Message-Id"));
+            if (res.getBody() != null && !res.getBody().isBlank()) {
+                log.debug("[SendGrid] body={}", res.getBody());
+            }
             if (res.getStatusCode() >= 400) {
+                log.error("[SendGrid] headers={}", res.getHeaders());
                 throw new IllegalStateException(
                         "SendGrid error: " + res.getStatusCode() + " - " + res.getBody());
             }
