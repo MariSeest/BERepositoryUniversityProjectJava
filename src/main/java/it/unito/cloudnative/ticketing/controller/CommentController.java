@@ -23,7 +23,7 @@ public class CommentController {
 
     @PostMapping
     public CommentNodeDTO create(@PathVariable Long ticketId, @RequestBody CommentDTO dto) {
-        return commentService.create(ticketId, dto); // ora il service restituisce DTO
+        return commentService.create(ticketId, dto);
     }
 
     @DeleteMapping("/{commentId}")

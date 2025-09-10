@@ -1,4 +1,3 @@
-// src/main/java/it/unito/cloudnative/ticketing/service/MailService.java
 package it.unito.cloudnative.ticketing.service;
 
 import com.sendgrid.Method;
@@ -32,10 +31,7 @@ public class MailService {
     @Value("${sendgrid.to}")
     private List<String> toEmails;
 
-    /**
-     * Invia una mail HTML a tutti i destinatari configurati.
-     * Logga status/body/headers della risposta SendGrid per facilitare il debug.
-     */
+
     public void sendSimple(String subject, String htmlBody) throws Exception {
         Email from = new Email(fromEmail, fromName);
         Content content = new Content("text/html", htmlBody);

@@ -1,4 +1,3 @@
-// src/main/java/it/unito/cloudnative/ticketing/service/TicketService.java
 package it.unito.cloudnative.ticketing.service;
 
 import it.unito.cloudnative.ticketing.model.Ticket;
