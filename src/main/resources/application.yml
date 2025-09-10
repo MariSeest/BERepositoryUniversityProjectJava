@@ -1,0 +1,6 @@
+sendgrid:
+  apiKey: ${SENDGRID_API_KEY:}
+  from: "seest97@gmail.com"
+  fromName: "Ticketing"
+  to: "seest97@gmail.com"
+
