@@ -1,26 +1,26 @@
 server:
   port: 8080
 
-
 sendgrid:
   apiKey: ${SENDGRID_API_KEY:}
-  from: "seest97@gmail.com"
-  fromName: "Ticketing"
-  to: "seest97@gmail.com"
+  from: ${SENDGRID_FROM:seest97@gmail.com}
+  fromName: ${SENDGRID_FROM_NAME:Ticketing}
+  to: ${SENDGRID_TO:seest97@gmail.com}
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ticketingdb
-    username: postgres
-    password: postgres
+
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ticketingdb?sslmode=disable}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     open-in-view: true
-
 
 logging:
   level:
