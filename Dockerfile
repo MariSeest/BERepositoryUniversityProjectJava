@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jdk AS build
 
 # Copia tutto il progetto nel container
 WORKDIR /app
-COPY . .
+COPY src .
 
 
 RUN ./gradlew clean bootJar -x test
