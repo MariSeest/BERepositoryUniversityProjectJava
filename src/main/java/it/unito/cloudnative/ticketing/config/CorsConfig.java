@@ -15,7 +15,7 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration c = new CorsConfiguration();
         // Se usi Auth0/credentialed requests, NON usare "*"
-        c.setAllowedOriginPatterns(List.of("http://localhost:3000","https://universityproject2.onrender.com","http://localhost:5173")); // aggiungi altri domini se serve
+        c.setAllowedOriginPatterns(List.of("http://localhost:3000","https://universityproject2.onrender.com","http://localhost:5173","https://berepositoryuniversityprojectjava.onrender.com" )); // aggiungi altri domini se serve
         c.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         c.setAllowedHeaders(List.of("*"));
         c.setAllowCredentials(true); // necessario se mandi cookie/Authorization
