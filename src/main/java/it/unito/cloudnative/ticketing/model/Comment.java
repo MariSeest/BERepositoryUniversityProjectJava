@@ -1,4 +1,3 @@
-// src/main/java/it/unito/cloudnative/ticketing/model/Comment.java
 package it.unito.cloudnative.ticketing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,12 +25,12 @@ public class Comment {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ticket_id", nullable = false)
-  @JsonIgnore                 // evita loop Ticket <-> Comment
+  @JsonIgnore
   private Ticket ticket;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "parent_id")
-  @JsonIgnore                 // evita loop parent <-> replies
+  @JsonIgnore
   private Comment parent;
 
   @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)

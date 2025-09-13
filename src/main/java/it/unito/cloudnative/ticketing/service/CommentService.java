@@ -24,7 +24,7 @@ public class CommentService {
         return roots.stream().map(this::toNode).collect(Collectors.toList());
     }
 
-    // mapper da entity a DTO (lasciamo private)
+    // mapper da entity a DTO
     private CommentNodeDTO toNode(Comment c) {
         var node = CommentNodeDTO.builder()
                 .id(c.getId())
@@ -37,7 +37,7 @@ public class CommentService {
         return node;
     }
 
-    // >>> RESTITUISCE DIRETTAMENTE CommentNodeDTO <<<
+
     public CommentNodeDTO create(Long ticketId, CommentDTO dto) {
         Ticket t = ticketRepo.findById(ticketId).orElseThrow();
         Comment parent = (dto.getParentId() == null) ? null :
@@ -55,7 +55,6 @@ public class CommentService {
     }
 
     public void delete(Long ticketId, Long commentId) {
-        // (opzionale) verificare che il comment appartenga al ticketId
         commentRepo.deleteById(commentId);
     }
 }

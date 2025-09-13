@@ -32,18 +32,15 @@ public class CorsConfig {
         return source;
     }
 
-    /**
-     * Configurazione Spring Security che abilita CORS e disabilita CSRF
-     * (altrimenti le POST potrebbero venire bloccate).
-     */
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors() // usa il bean corsConfigurationSource
+                .cors()
                 .and()
-                .csrf().disable() // utile per API REST
+                .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // ⚠️ per test, poi restringi
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }

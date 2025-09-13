@@ -49,7 +49,7 @@ public class MailService {
 
             Response res = sg.api(req);
 
-            // --- LOG DETTAGLIATO ---
+            // --- LOG  ---
             log.info("[SendGrid] to={} status={} messageId={}",
                     toEmail, res.getStatusCode(), res.getHeaders().get("X-Message-Id"));
             if (res.getBody() != null && !res.getBody().isBlank()) {

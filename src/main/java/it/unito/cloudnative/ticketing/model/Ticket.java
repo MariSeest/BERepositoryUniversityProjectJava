@@ -20,8 +20,8 @@ public class Ticket {
     @Column(length = 2000)
     private String description;
 
-    private String status; // OPEN, IN_PROGRESS, CLOSED
-    private String priority; // LOW, MEDIUM, HIGH
+    private String status;
+    private String priority;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

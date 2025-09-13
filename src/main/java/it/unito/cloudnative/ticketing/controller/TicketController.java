@@ -17,7 +17,7 @@ public class TicketController {
 
     private final TicketService ticketService;
 
-    // ------------------ TICKETS ------------------
+    // ------------------ TICKETS ----------------
 
     @GetMapping
     public List<Ticket> getAllTickets() {

@@ -58,15 +58,15 @@ tasks.named('test') {
 }
 
 springBoot {
-    buildInfo() // utile per actuator/info se lo aggiungerai
+    buildInfo() //
 }
 
-// Rinomina l'artefatto JAR -> utile in Dockerfile
+// rinomina l'artefatto JAR
 tasks.named('bootJar') {
     archiveFileName = 'ticketing.jar'
 }
 
-// Comodo: avvia con profilo H2 senza toccare variabili d'ambiente
+// avvia con profilo H2 senza toccare variabili d'ambiente
 tasks.register('bootRunH2', org.springframework.boot.gradle.tasks.run.BootRun) {
     group = 'application'
     description = 'Run the app with H2 profile'

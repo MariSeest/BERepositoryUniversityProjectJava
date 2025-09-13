@@ -15,7 +15,7 @@ import java.util.Optional;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
-    private final MailService mailService; // iniettiamo il servizio email
+    private final MailService mailService;
 
     public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();

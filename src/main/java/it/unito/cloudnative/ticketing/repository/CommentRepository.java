@@ -1,4 +1,3 @@
-// src/main/java/it/unito/cloudnative/ticketing/repository/CommentRepository.java
 package it.unito.cloudnative.ticketing.repository;
 
 import it.unito.cloudnative.ticketing.model.Comment;
