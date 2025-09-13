@@ -1,42 +1,73 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.4'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'org.springframework.boot' version '3.5.4'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'it.unito.cloudnative'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-implementation 'com.sendgrid:sendgrid-java:4.10.2'
+    // Web + JPA
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    // Mail (Spring) + SendGrid
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'com.sendgrid:sendgrid-java:4.10.2'
+
+    // DB driver per produzione/sviluppo con Postgres
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // DB in-memory per profilo "h2" (fallback senza DB locale)
+    runtimeOnly 'com.h2database:h2'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // DevTools (hot reload)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+springBoot {
+    buildInfo() // utile per actuator/info se lo aggiungerai
+}
+
+// Rinomina l'artefatto JAR -> utile in Dockerfile
+tasks.named('bootJar') {
+    archiveFileName = 'ticketing.jar'
+}
+
+// Comodo: avvia con profilo H2 senza toccare variabili d'ambiente
+tasks.register('bootRunH2', org.springframework.boot.gradle.tasks.run.BootRun) {
+    group = 'application'
+    description = 'Run the app with H2 profile'
+    mainClass.set('it.unito.cloudnative.ticketing.TicketingApplication')
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = ['-Dspring.profiles.active=h2']
 }
